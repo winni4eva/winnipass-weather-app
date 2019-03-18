@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -10,7 +10,8 @@ export class WeatherService {
     constructor(private _http: HttpClient) {}
 
     getWeather(command: string, search: string) {
-        return this._http.get(this.url + `/weather.php?command=${command}&keyword=${search}`);
+        const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
+        return this._http.get(this.url + `/weather.php?command=${command}&keyword=${search}`, { headers: headers });
     }
 
 }
