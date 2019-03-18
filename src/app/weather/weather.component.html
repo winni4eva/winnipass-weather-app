@@ -3,15 +3,31 @@
     <div class="forecast-container">
       <div class="today forecast">
         <div class="forecast-header">
-          <!-- <div class="day">Today</div> -->
+          <div class="day" *ngIf="!weatherReport">Loading..</div>
           <!-- <div class="date">6 Oct</div> -->
         </div>
-        <div class="forecast-content">
+        <div class="forecast-content" (click)="getWeatherDetails(weatherReport.woeid)" *ngIf="weatherReport">
           <div class="location">{{city}}</div>
           <div class="degree">
             <div class="num">
               <!-- max {{weatherReport.consolidated_weather[0].max_temp}}<sup>min {{weatherReport.consolidated_weather[0].min_temp}}</sup>  -->
-              <span>{{weatherReport.consolidated_weather[0].weather_state_name}}</span>
+              <!-- <p>Temperature: {{weatherReport | json}}</p> -->
+              <p>Max Temp: {{weatherReport.consolidated_weather[0].max_temp}}</p>
+              <p>Min Temp: {{weatherReport.consolidated_weather[0].min_temp}}</p>
+
+              <!--
+              * This component should display:
+
+              * the city name
+
+              * the temperature
+
+              * the maximum temperature
+
+              * the minimum temperature
+
+              * and the corresponding weather icon (it’s also provided by metaweather
+              -->
             </div>
             <!-- <div class="forecast-icon">
               <img src="assets/images/icons/icon-1.svg" alt="" width=90>

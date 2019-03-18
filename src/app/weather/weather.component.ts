@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { WeatherService } from './weather.service';
-import { switchMap } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'weather',
@@ -13,7 +13,10 @@ export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
   @Input() city: string;
   public weatherReport;
 
-  constructor(private _weatherService: WeatherService) { }
+  constructor(
+    private _weatherService: WeatherService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -39,6 +42,11 @@ export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
       },
       error => console.log(error)
     );
+  }
+
+  getWeatherDetails(woeid) {
+    console.log(`My woe id is ${woeid}`);
+    this.router.navigate(['weather', woeid]);
   }
 
 }
