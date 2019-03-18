@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { WeatherService } from './weather.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { WeatherService } from './weather.service';
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css']
 })
-export class WeatherComponent implements OnInit {
+export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() city: string;
 
@@ -14,5 +14,12 @@ export class WeatherComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // changes.prop contains the old and the new value...
+    console.log('on change', changes);
+  }
+
+  ngOnDestroy() {}
 
 }
