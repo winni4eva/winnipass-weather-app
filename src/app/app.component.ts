@@ -18,7 +18,4 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  cityWeatherReport(report) {
-    this.cityReport = report.consolidated_weather['0'];
-  }
 }

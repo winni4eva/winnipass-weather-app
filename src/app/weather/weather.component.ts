@@ -11,8 +11,7 @@ import { mergeMap } from 'rxjs/operators';
 export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() city: string;
-  @Input() cityReport: any;
-  @Output() weatherReport = new EventEmitter();
+  public weatherReport;
 
   constructor(private _weatherService: WeatherService) { }
 
@@ -35,7 +34,8 @@ export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
 
     result.subscribe(
       response => {
-        this.weatherReport.emit(response);
+        this.weatherReport = response;
+        console.log(response);
       },
       error => console.log(error)
     );
