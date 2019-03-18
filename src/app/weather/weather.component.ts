@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { WeatherService } from './weather.service';
+import { switchMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'weather',
@@ -9,7 +11,8 @@ import { WeatherService } from './weather.service';
 export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() city: string;
-  @Output() weatherReport: any;
+  @Input() cityReport: any;
+  @Output() weatherReport = new EventEmitter();
 
   constructor(private _weatherService: WeatherService) { }
 
@@ -17,20 +20,24 @@ export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // changes.prop contains the old and the new value...
-    // console.log('on change', changes);
     if (changes.city.previousValue !== changes.city.currentValue) {
-      this.getWeatherReport(changes.city.currentValue);
+      this.getLocationId(changes.city.currentValue);
     }
   }
 
   ngOnDestroy() {}
 
-  getWeatherReport(keyword: string, command: string = 'search') {
+  getLocationId(keyword: string, command: string = 'search') {
     const term = keyword.toLowerCase();
-    this._weatherService.getWeather(command, term).subscribe(
-      (report) => { console.log(report); },
-      (error) => { console.log(error); }
+    const result = this._weatherService.getLocationId(command, term).pipe(
+      mergeMap(report => this._weatherService.getWeatherReport('location', report[0].woeid))
+    );
+
+    result.subscribe(
+      response => {
+        this.weatherReport.emit(response);
+      },
+      error => console.log(error)
     );
   }
 

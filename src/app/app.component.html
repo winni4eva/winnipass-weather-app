@@ -32,7 +32,7 @@
     </div>
   </div>
   
-  <weather *ngFor="let city of cities" [city]="city"></weather>
+  <weather *ngFor="let city of cities" [city]="city" (weatherReport)="cityWeatherReport($event)" [cityReport]="cityReport"></weather>
 
   <footer class="site-footer">
     <div class="container">

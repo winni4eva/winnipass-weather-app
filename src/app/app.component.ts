@@ -9,10 +9,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public cities: Array<String> = ['Istanbul', 'Berlin', 'London', 'Helsinki', 'Dublin', 'Vancouver'];
 
+  public cityReport;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   ngOnDestroy() {}
+
+  cityWeatherReport(report) {
+    this.cityReport = report.consolidated_weather['0'];
+  }
 }
