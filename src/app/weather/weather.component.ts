@@ -8,10 +8,11 @@ import {Router} from '@angular/router';
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css']
 })
-export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
+export class WeatherComponent implements OnInit, OnDestroy {
 
-  @Input() city: string;
-  public weatherReport;
+  @Input() city: String;
+  public cities: Array<String> = ['Istanbul', 'Berlin', 'London', 'Helsinki', 'Dublin', 'Vancouver'];
+  public weatherReport = [];
 
   constructor(
     private _weatherService: WeatherService,
@@ -19,17 +20,14 @@ export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
   ) { }
 
   ngOnInit() {
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.city.previousValue !== changes.city.currentValue) {
-      this.getLocationId(changes.city.currentValue);
-    }
+    this.cities.map(city => {
+      this.getLocationId(city);
+    });
   }
 
   ngOnDestroy() {}
 
-  getLocationId(keyword: string, command: string = 'search') {
+  getLocationId(keyword: String, command: String = 'search') {
     const term = keyword.toLowerCase();
     const result = this._weatherService.getLocationId(command, term).pipe(
       mergeMap(report => this._weatherService.getWeatherReport('location', report[0].woeid))
@@ -37,7 +35,7 @@ export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
 
     result.subscribe(
       response => {
-        this.weatherReport = response;
+        this.weatherReport.push(response);
         console.log(response);
       },
       error => console.log(error)

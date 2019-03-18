@@ -9,13 +9,13 @@ export class WeatherService {
 
     constructor(private _http: HttpClient) {}
 
-    getLocationId(command: string, search: string) {
+    getLocationId(command: String, search: String) {
         const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
 
         return this._http.get(this.url + `/weather.php?command=${command}&keyword=${search}`, { headers: headers });
     }
 
-    getWeatherReport(command: string, woeid: number) {
+    getWeatherReport(command: String, woeid: number) {
         const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
 
         return this._http.get(this.url + `/weather.php?command=${command}&woeid=${woeid}`, { headers: headers });
