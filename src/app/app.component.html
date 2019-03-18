@@ -24,7 +24,7 @@
 
   <div class="hero" data-bg-image="images/banner.png">
     <div class="container">
-      <form action="#" class="find-location">
+      <form [formGroup]="form" (ngSubmit)="search(form.value, form.valid)" class="find-location">
         <input type="text" placeholder="Find your location...">
         <input type="submit" value="Find">
       </form>
