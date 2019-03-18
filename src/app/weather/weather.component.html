@@ -1,19 +1,19 @@
-<div class="forecast-table" *ngFor="let report of weatherReport">
+<div class="forecast-table">
   <div class="container">
     <div class="forecast-container">
       <div class="today forecast">
         <div class="forecast-header">
           <div class="day" *ngIf="!weatherReport">Loading..</div>
-          <!-- <div class="date">6 Oct</div> -->
+          <div class="date" *ngIf="weatherReport">Report for {{weatherReport.length}} citie(s)</div>
         </div>
-        <div class="forecast-content" (click)="getWeatherDetails(report.woeid)">
-          <div class="location">City</div>
+        <div class="forecast-content" (click)="getWeatherDetails(report.woeid)" *ngFor="let report of weatherReport">
+          <div class="location">{{report.title}}</div>
           <div class="degree">
             <div class="num">
               <!-- max {{weatherReport.consolidated_weather[0].max_temp}}<sup>min {{weatherReport.consolidated_weather[0].min_temp}}</sup>  -->
               <!-- <p>Temperature: {{weatherReport | json}}</p> -->
-              <p>Max Temp: {{report.consolidated_weather[0].max_temp}}</p>
-              <p>Min Temp: {{report.consolidated_weather[0].min_temp}}</p>
+              <p class="smallptext">Max Temp: {{report.consolidated_weather[0].max_temp}}</p>
+              <p class="smallptext">Min Temp: {{report.consolidated_weather[0].min_temp}}</p>
 
               <!--
               * This component should display:

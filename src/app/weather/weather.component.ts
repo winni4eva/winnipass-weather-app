@@ -2,15 +2,16 @@ import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges, Output, 
 import { WeatherService } from './weather.service';
 import { mergeMap } from 'rxjs/operators';
 import {Router} from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css']
 })
-export class WeatherComponent implements OnInit, OnDestroy {
+export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() city: String;
+  @Input() woeid: String;
   public cities: Array<String> = ['Istanbul', 'Berlin', 'London', 'Helsinki', 'Dublin', 'Vancouver'];
   public weatherReport = [];
 
@@ -20,31 +21,48 @@ export class WeatherComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.cities.map(city => {
-      this.getLocationId(city);
-    });
+    if (!this.woeid) {
+      this.cities.map(city => {
+        this.getLocationId(city);
+      });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ( changes.woeid.previousValue !== changes.woeid.currentValue) {
+      this.weatherReport = [];
+      const response = this.getWeatherReport(changes.woeid.currentValue);
+      this.handleWeatherResponse(response);
+    }
   }
 
   ngOnDestroy() {}
 
   getLocationId(keyword: String, command: String = 'search') {
     const term = keyword.toLowerCase();
-    const result = this._weatherService.getLocationId(command, term).pipe(
-      mergeMap(report => this._weatherService.getWeatherReport('location', report[0].woeid))
+    const response = this._weatherService.getLocationId(command, term).pipe(
+      mergeMap(report => this.getWeatherReport(report[0].woeid))
     );
 
-    result.subscribe(
-      response => {
-        this.weatherReport.push(response);
-        console.log(response);
+    this.handleWeatherResponse(response);
+  }
+
+  getWeatherReport(woeid, command: String = 'location') {
+    return this._weatherService.getWeatherReport(command, woeid);
+  }
+
+  getWeatherDetails(woeid: number) {
+    this.router.navigate(['weather', woeid]);
+  }
+
+  handleWeatherResponse(response: Observable<any>) {
+    response.subscribe(
+      res => {
+        this.weatherReport.push(res);
+        console.log(res);
       },
       error => console.log(error)
     );
-  }
-
-  getWeatherDetails(woeid) {
-    console.log(`My woe id is ${woeid}`);
-    this.router.navigate(['weather', woeid]);
   }
 
 }
