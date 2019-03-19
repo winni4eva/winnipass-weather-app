@@ -12,6 +12,7 @@ import { Observable, Subject } from 'rxjs';
 export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() woeid: String;
+  @Input() displayDays = false;
   public cities: Array<String> = ['Istanbul', 'Berlin', 'London', 'Helsinki', 'Dublin', 'Vancouver'];
   public weatherReport = [];
 

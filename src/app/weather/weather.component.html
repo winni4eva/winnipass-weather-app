@@ -1,25 +1,26 @@
-<div class="forecast-table">
-  <div class="container">
-    <div class="forecast-container">
-      <div class="today forecast">
-        <div class="forecast-header">
-          <div class="day" *ngIf="!weatherReport">Loading..</div>
-          <div class="date" *ngIf="weatherReport">Report for {{weatherReport.length}} citie(s)</div>
-        </div>
-        <div class="forecast-content" (click)="getWeatherDetails(report.woeid)" *ngFor="let report of weatherReport">
-          <div class="location">{{report.title}}</div>
-          <div class="degree">
-            <div class="num">
-              <p class="smallptext">Temp: {{report.consolidated_weather[0].the_temp | number}}</p>
-              <p class="smallptext">Min Temp: {{report.consolidated_weather[0].min_temp | number}}</p>
-              <p class="smallptext">Max Temp: {{report.consolidated_weather[0].max_temp | number}}</p>
 
+<div class="forecast-table">
+    <div class="container">
+      <!-- <p>{{weatherReport | json}}</p> -->
+      <div [ngClass]="{'forecast-container': true}" class="forecast-container" style="margin-bottom: 200px" *ngFor="let report of weatherReport;let first = first;let i = index;">
+        <div class="today forecast" style="width:100px" *ngFor="let data of report.consolidated_weather; let j = index">
+          <div class="forecast-header">
+            <div class="day">{{data.applicable_date}}</div>
+          </div> <!-- .forecast-header -->
+          <div class="forecast-content">
+            <div class="location" *ngIf="j===0">{{report.title}}</div>
+            <div class="degree">
+                <div class="num">
+                    <p class="smallptext">Temp: {{data.the_temp | number}}</p>
+                    <p class="smallptext">Min Temp: {{data.min_temp | number}}</p>
+                    <p class="smallptext">Max Temp: {{data.max_temp | number}}</p>
+                </div>	
             </div>
             <div class="forecast-icon">
-              <img src="https://www.metaweather.com/static/img/weather/png/64/{{report.consolidated_weather[0].weather_state_abbr}}.png" alt="" width=90>
+              <img src="https://www.metaweather.com/static/img/weather/png/{{data.weather_state_abbr}}.png" alt="" width=90>
             </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
