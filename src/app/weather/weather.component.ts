@@ -60,7 +60,6 @@ export class WeatherComponent implements OnInit, OnDestroy, OnChanges {
     response.subscribe(
       res => {
         this.weatherReport.push(res);
-        console.log(res);
       },
       error => console.log(error)
     );

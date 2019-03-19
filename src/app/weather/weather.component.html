@@ -2,7 +2,7 @@
 <div class="forecast-table">
     <div class="container">
       <div [ngClass]="{'forecast-container': true}" class="forecast-container" style="margin-bottom: 200px" *ngFor="let report of weatherReport;let first = first;let i = index;">
-        <span *ngIf="displayDays">
+        <div *ngIf="displayDays" (click)="getWeatherDetails(report.woeid)">
           <div class="today forecast" style="width:100px" *ngFor="let data of report.consolidated_weather; let j = index">
             <div class="forecast-header">
               <div class="day">{{data.applicable_date}}</div>
@@ -21,8 +21,8 @@
               </div>
             </div>
           </div>
-        </span>
-        <span *ngIf="!displayDays">
+        </div>
+        <div *ngIf="!displayDays" (click)="getWeatherDetails(report.woeid)">
             <div class="today forecast" style="width:100px">
               <div class="forecast-header">
                 <div class="day">{{report.consolidated_weather[0].applicable_date}}</div>
@@ -41,7 +41,7 @@
                 </div>
               </div>
             </div>
-          </span>
+          </div>
       </div>
     </div>
   </div>
