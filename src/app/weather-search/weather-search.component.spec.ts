@@ -43,6 +43,7 @@ describe('WeatherSearchComponent', () => {
 
   it('should return error message if no response was returned', () => {
     mockWeatherService.getLocationId.and.returnValue( of([]) );
+    component.woeid = undefined;
 
     component.getLocation('Mars');
 

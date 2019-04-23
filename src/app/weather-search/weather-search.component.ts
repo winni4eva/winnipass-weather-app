@@ -28,7 +28,6 @@ export class WeatherSearchComponent implements OnInit {
   getLocation(keyword) {
     this._weatherService.getLocationId('search', keyword).subscribe(
       (response: any) => {
-        console.log(response); 
         if ( response.length === 0) {
           this.errorMessage = 'No results were found. Try changing the keyword!';
           return;

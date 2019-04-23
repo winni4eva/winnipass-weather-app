@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { SingleWeatherComponent } from './single-weather.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SingleWeatherComponent', () => {
   let component: SingleWeatherComponent;
@@ -8,7 +9,11 @@ describe('SingleWeatherComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SingleWeatherComponent ]
+      declarations: [ SingleWeatherComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ],
+      imports: [
+        RouterTestingModule,
+      ],
     })
     .compileComponents();
   }));
