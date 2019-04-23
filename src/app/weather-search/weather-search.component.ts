@@ -22,17 +22,19 @@ export class WeatherSearchComponent implements OnInit {
     this._activedRoute.params.subscribe(
       params => this.keyword = params['keyword']
     );
+    this.getLocation(this.keyword);
+  }
 
-    this._weatherService.getLocationId('search', this.keyword).subscribe(
+  getLocation(keyword) {
+    this._weatherService.getLocationId('search', keyword).subscribe(
       (response: any) => {
+        console.log(response); 
         if ( response.length === 0) {
           this.errorMessage = 'No results were found. Try changing the keyword!';
           return;
         }
-        
         this.errorMessage = '';
         this.woeid = response[0].woeid;
-        console.log(response[0].woeid);
       },
       error => console.log(error)
     );
